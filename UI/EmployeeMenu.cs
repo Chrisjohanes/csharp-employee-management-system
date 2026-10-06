@@ -7,14 +7,11 @@ public class EmployeeMenu
 {
     private readonly EmployeeService _employeeService;
 
-    public EmployeeMenu(EmployeeService employeeService)
+    public EmployeeMenu(
+        EmployeeService employeeService)
     {
         _employeeService = employeeService;
     }
-
-    // ========================================
-    // RUN APPLICATION
-    // ========================================
 
     public void Run()
     {
@@ -31,7 +28,9 @@ public class EmployeeMenu
             switch (menu)
             {
                 case 1:
-                    ShowDashboard();
+                    EmployeeDashboard.Show(
+                        _employeeService
+                    );
                     break;
 
                 case 2:
@@ -66,319 +65,102 @@ public class EmployeeMenu
                     return;
 
                 default:
-                    ShowError("Invalid menu. Please choose 1-9.");
+                    ConsoleHelper.ShowError(
+                        "Invalid menu. Please choose 1-9."
+                    );
                     break;
             }
 
-            if (menu != 9)
-            {
-                Pause();
-            }
+            ConsoleHelper.Pause();
         }
     }
-
-    // ========================================
-    // UI HELPERS
-    // ========================================
-
-    private const int BoxWidth = 50;
-    private const int NameColumnWidth = 15;
-    private const int PositionColumnWidth = 23;
-    private const int PositionDashboardWidth = 25;
-
-    private void ShowHeader(string title)
-    {
-        Console.Clear();
-
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("╔══════════════════════════════════════════════════════╗");
-        Console.WriteLine("║              EMPLOYEE MANAGEMENT SYSTEM              ║");
-        Console.WriteLine("║                    C# / .NET                         ║");
-        Console.WriteLine("╚══════════════════════════════════════════════════════╝");
-        Console.ResetColor();
-
-        Console.WriteLine();
-
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine($"  {title}");
-        Console.ResetColor();
-
-        Console.WriteLine();
-    }
-
-    private void ShowSuccess(string message)
-    {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($"  ✓ {message}");
-        Console.ResetColor();
-    }
-
-    private void ShowError(string message)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"  ✗ {message}");
-        Console.ResetColor();
-    }
-
-    private void ShowWarning(string message)
-    {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"  ⚠ {message}");
-        Console.ResetColor();
-    }
-
-    private void Pause()
-    {
-        Console.WriteLine();
-        Console.ForegroundColor = ConsoleColor.DarkGray;
-        Console.Write("  Press ENTER to continue...");
-        Console.ResetColor();
-        Console.ReadLine();
-    }
-
-    private void WriteBoxTop()
-    {
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine($"  ┌{new string('─', BoxWidth)}┐");
-        Console.ResetColor();
-    }
-
-    private void WriteBoxTitle(string title)
-    {
-        string content = CenterText(title, BoxWidth);
-
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine($"  │{content}│");
-        Console.WriteLine($"  ├{new string('─', BoxWidth)}┤");
-        Console.ResetColor();
-    }
-
-    private void WriteBoxLine(string content)
-    {
-        if (content.Length > BoxWidth)
-        {
-            content = content[..BoxWidth];
-        }
-
-        Console.WriteLine(
-            $"  │{content.PadRight(BoxWidth)}│"
-        );
-    }
-
-    private void WriteBoxBottom()
-    {
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine($"  └{new string('─', BoxWidth)}┘");
-        Console.ResetColor();
-    }
-
-    private string CenterText(string text, int width)
-    {
-        if (text.Length >= width)
-        {
-            return text[..width];
-        }
-
-        int leftPadding = (width - text.Length) / 2;
-        int rightPadding = width - text.Length - leftPadding;
-
-        return new string(' ', leftPadding)
-            + text
-            + new string(' ', rightPadding);
-    }
-
-    // ========================================
-    // MENU HELPERS
-    // ========================================
-
-    private void WriteMenuItem(int number, string label)
-    {
-        WriteBoxLine($"  [{number}]  {label}");
-    }
-
-    // ========================================
-    // SHOW MAIN MENU
-    // ========================================
 
     private void ShowMenu()
     {
-        ShowHeader("MAIN MENU");
+        ConsoleHelper.ShowHeader("MAIN MENU");
 
-        WriteBoxTop();
-        WriteBoxTitle("MAIN MENU");
+        ConsoleHelper.WriteBoxTop();
+        ConsoleHelper.WriteBoxTitle("MAIN MENU");
 
-        WriteMenuItem(1, "Dashboard");
-        WriteMenuItem(2, "View Employees");
-        WriteMenuItem(3, "Add Employee");
-        WriteMenuItem(4, "Search Employee");
-        WriteMenuItem(5, "Filter Employees");
-        WriteMenuItem(6, "Update Employee");
-        WriteMenuItem(7, "Delete Employee");
-        WriteMenuItem(8, "Sort Employees");
-        WriteMenuItem(9, "Exit");
+        ConsoleHelper.WriteMenuItem(
+            1,
+            "Dashboard"
+        );
 
-        WriteBoxBottom();
+        ConsoleHelper.WriteMenuItem(
+            2,
+            "View Employees"
+        );
+
+        ConsoleHelper.WriteMenuItem(
+            3,
+            "Add Employee"
+        );
+
+        ConsoleHelper.WriteMenuItem(
+            4,
+            "Search Employee"
+        );
+
+        ConsoleHelper.WriteMenuItem(
+            5,
+            "Filter Employees"
+        );
+
+        ConsoleHelper.WriteMenuItem(
+            6,
+            "Update Employee"
+        );
+
+        ConsoleHelper.WriteMenuItem(
+            7,
+            "Delete Employee"
+        );
+
+        ConsoleHelper.WriteMenuItem(
+            8,
+            "Sort Employees"
+        );
+
+        ConsoleHelper.WriteMenuItem(
+            9,
+            "Exit"
+        );
+
+        ConsoleHelper.WriteBoxBottom();
 
         Console.WriteLine();
     }
-
-    // ========================================
-    // DASHBOARD
-    // ========================================
-
-    private void ShowDashboard()
-    {
-        ShowHeader("EMPLOYEE DASHBOARD");
-
-        List<Employee> employees =
-            _employeeService.Employees;
-
-        if (employees.Count == 0)
-        {
-            ShowWarning("No employee data available.");
-            return;
-        }
-
-        // ========================================
-        // BASIC STATISTICS
-        // ========================================
-
-        int totalEmployees = employees.Count;
-
-        decimal averageAge = employees
-            .Average(employee => (decimal)employee.Age);
-
-        decimal averageSalary = employees
-            .Average(employee => employee.Salary);
-
-        decimal highestSalary = employees
-            .Max(employee => employee.Salary);
-
-        decimal lowestSalary = employees
-            .Min(employee => employee.Salary);
-
-        // ========================================
-        // EMPLOYEE HIGHLIGHTS
-        // ========================================
-
-        Employee highestPaidEmployee = employees
-            .MaxBy(employee => employee.Salary)!;
-
-        Employee youngestEmployee = employees
-            .MinBy(employee => employee.Age)!;
-
-        Employee oldestEmployee = employees
-            .MaxBy(employee => employee.Age)!;
-
-        // ========================================
-        // SUMMARY
-        // ========================================
-
-        WriteBoxTop();
-        WriteBoxTitle("SUMMARY");
-
-        WriteBoxLine(
-            $"  Total Employees     : {totalEmployees}"
-        );
-
-        WriteBoxLine(
-            $"  Average Age         : {averageAge:N2} years"
-        );
-
-        WriteBoxLine(
-            $"  Average Salary      : Rp {averageSalary:N0}"
-        );
-
-        WriteBoxLine(
-            $"  Highest Salary      : Rp {highestSalary:N0}"
-        );
-
-        WriteBoxLine(
-            $"  Lowest Salary       : Rp {lowestSalary:N0}"
-        );
-
-        WriteBoxBottom();
-
-        Console.WriteLine();
-
-        // ========================================
-        // TOP EMPLOYEES
-        // ========================================
-
-        WriteBoxTop();
-        WriteBoxTitle("TOP EMPLOYEES");
-
-        WriteBoxLine(
-            $"  Highest Paid        : {highestPaidEmployee.Name,-21}"
-        );
-
-        WriteBoxLine(
-            $"  Youngest Employee   : {youngestEmployee.Name,-21}"
-        );
-
-        WriteBoxLine(
-            $"  Oldest Employee     : {oldestEmployee.Name,-21}"
-        );
-
-        WriteBoxBottom();
-
-        Console.WriteLine();
-
-        // ========================================
-        // EMPLOYEE BY POSITION
-        // ========================================
-
-        Dictionary<string, int> employeesByPosition =
-            _employeeService.GroupByPosition();
-
-        WriteBoxTop();
-        WriteBoxTitle("EMPLOYEE BY POSITION");
-
-        foreach (KeyValuePair<string, int> item in employeesByPosition)
-        {
-            string position = TruncateText(
-                item.Key,
-                PositionDashboardWidth
-            );
-
-            WriteBoxLine(
-                $"  {position,-25} : {item.Value}"
-            );
-        }
-
-        WriteBoxBottom();
-    }
-
-    // ========================================
-    // VIEW EMPLOYEES
-    // ========================================
 
     private void ViewEmployees()
     {
-        ShowHeader("VIEW EMPLOYEES");
+        ConsoleHelper.ShowHeader(
+            "VIEW EMPLOYEES"
+        );
 
-        DisplayEmployeeList(
+        EmployeeDisplay.ShowList(
             _employeeService.Employees
         );
     }
 
-    // ========================================
-    // ADD EMPLOYEE
-    // ========================================
-
     private void AddEmployee()
     {
-        ShowHeader("ADD EMPLOYEE");
-
-        string name = InputHelper.ReadRequiredString(
-            "  Enter employee name: "
+        ConsoleHelper.ShowHeader(
+            "ADD EMPLOYEE"
         );
 
-        string position = InputHelper.ReadRequiredString(
-            "  Enter employee position: "
-        );
+        string name =
+            InputHelper.ReadRequiredString(
+                "  Enter employee name: "
+            );
 
-        int age = InputHelper.ReadAge();
+        string position =
+            InputHelper.ReadRequiredString(
+                "  Enter employee position: "
+            );
+
+        int age =
+            InputHelper.ReadAge();
 
         decimal salary =
             InputHelper.ReadNonNegativeDecimal(
@@ -395,32 +177,41 @@ public class EmployeeMenu
 
         Console.WriteLine();
 
-        ShowSuccess("Employee added successfully.");
+        ConsoleHelper.ShowSuccess(
+            "Employee added successfully."
+        );
 
         Console.WriteLine(
             $"  Employee ID : {employee.Id}"
         );
     }
 
-    // ========================================
-    // SEARCH EMPLOYEE
-    // ========================================
-
     private void SearchEmployee()
     {
-        ShowHeader("SEARCH EMPLOYEE");
-
         while (true)
         {
-            Console.WriteLine("1. Search by ID");
-            Console.WriteLine("2. Search by Name");
-            Console.WriteLine("3. Back");
+            ConsoleHelper.ShowHeader(
+                "SEARCH EMPLOYEE"
+            );
+
+            Console.WriteLine(
+                "1. Search by ID"
+            );
+
+            Console.WriteLine(
+                "2. Search by Name"
+            );
+
+            Console.WriteLine(
+                "3. Back"
+            );
 
             Console.WriteLine();
 
-            int menu = InputHelper.ReadPositiveInt(
-                "  Choose search: "
-            );
+            int menu =
+                InputHelper.ReadPositiveInt(
+                    "  Choose search: "
+                );
 
             Console.WriteLine();
 
@@ -428,37 +219,36 @@ public class EmployeeMenu
             {
                 case 1:
                     SearchEmployeeById();
-                    Pause();
-                    ShowHeader("SEARCH EMPLOYEE");
+                    ConsoleHelper.Pause();
                     break;
 
                 case 2:
                     SearchEmployeeByName();
-                    Pause();
-                    ShowHeader("SEARCH EMPLOYEE");
+                    ConsoleHelper.Pause();
                     break;
 
                 case 3:
                     return;
 
                 default:
-                    ShowError("Invalid menu. Please choose 1-3.");
-                    Pause();
-                    ShowHeader("SEARCH EMPLOYEE");
+                    ConsoleHelper.ShowError(
+                        "Invalid menu. Please choose 1-3."
+                    );
+
+                    ConsoleHelper.Pause();
                     break;
             }
         }
     }
 
-    // ========================================
-    // SEARCH BY ID
-    // ========================================
-
     private void SearchEmployeeById()
     {
-        ShowHeader("SEARCH BY ID");
+        ConsoleHelper.ShowHeader(
+            "SEARCH BY ID"
+        );
 
-        int id = InputHelper.ReadEmployeeId();
+        int id =
+            InputHelper.ReadEmployeeId();
 
         Employee? employee =
             _employeeService.FindById(id);
@@ -467,31 +257,34 @@ public class EmployeeMenu
 
         if (employee == null)
         {
-            ShowError("Employee not found.");
+            ConsoleHelper.ShowError(
+                "Employee not found."
+            );
 
             return;
         }
 
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("✓ Employee found:");
-        Console.ResetColor();
+        ConsoleHelper.ShowSuccess(
+            "Employee found:"
+        );
 
         Console.WriteLine();
 
-        DisplayEmployee(employee);
+        EmployeeDisplay.ShowSingle(
+            employee
+        );
     }
-
-    // ========================================
-    // SEARCH BY NAME
-    // ========================================
 
     private void SearchEmployeeByName()
     {
-        ShowHeader("SEARCH BY NAME");
-
-        string name = InputHelper.ReadRequiredString(
-            "  Enter employee name: "
+        ConsoleHelper.ShowHeader(
+            "SEARCH BY NAME"
         );
+
+        string name =
+            InputHelper.ReadRequiredString(
+                "  Enter employee name: "
+            );
 
         List<Employee> employees =
             _employeeService.SearchByName(name);
@@ -500,7 +293,9 @@ public class EmployeeMenu
 
         if (employees.Count == 0)
         {
-            ShowError("Employee not found.");
+            ConsoleHelper.ShowError(
+                "Employee not found."
+            );
 
             return;
         }
@@ -511,23 +306,33 @@ public class EmployeeMenu
 
         Console.WriteLine();
 
-        DisplayEmployeeList(employees);
+        EmployeeDisplay.ShowList(
+            employees
+        );
     }
 
     private void FilterEmployees()
     {
-        ShowHeader("FILTER EMPLOYEES");
-
         while (true)
         {
-            Console.WriteLine("1. Filter by Position");
-            Console.WriteLine("2. Back");
+            ConsoleHelper.ShowHeader(
+                "FILTER EMPLOYEES"
+            );
+
+            Console.WriteLine(
+                "1. Filter by Position"
+            );
+
+            Console.WriteLine(
+                "2. Back"
+            );
 
             Console.WriteLine();
 
-            int menu = InputHelper.ReadPositiveInt(
-                "  Choose filter: "
-            );
+            int menu =
+                InputHelper.ReadPositiveInt(
+                    "  Choose filter: "
+                );
 
             Console.WriteLine();
 
@@ -535,20 +340,18 @@ public class EmployeeMenu
             {
                 case 1:
                     FilterByPosition();
-                    Pause();
-                    ShowHeader("FILTER EMPLOYEES");
+                    ConsoleHelper.Pause();
                     break;
 
                 case 2:
                     return;
 
                 default:
-                    ShowError(
+                    ConsoleHelper.ShowError(
                         "Invalid menu. Please choose 1-2."
                     );
 
-                    Pause();
-                    ShowHeader("FILTER EMPLOYEES");
+                    ConsoleHelper.Pause();
                     break;
             }
         }
@@ -556,74 +359,83 @@ public class EmployeeMenu
 
     private void FilterByPosition()
     {
-        string position = InputHelper.ReadRequiredString(
-            "  Enter position: "
-        );
+        string position =
+            InputHelper.ReadRequiredString(
+                "  Enter position: "
+            );
 
         List<Employee> employees =
-            _employeeService.FilterByPosition(position);
+            _employeeService.FilterByPosition(
+                position
+            );
 
         Console.WriteLine();
 
         if (employees.Count == 0)
         {
-            ShowWarning(
+            ConsoleHelper.ShowWarning(
                 $"No employees found for position '{position}'."
             );
 
             return;
         }
 
-        DisplayEmployeeList(employees);
+        EmployeeDisplay.ShowList(
+            employees
+        );
     }
-
-    // ========================================
-    // UPDATE EMPLOYEE
-    // ========================================
 
     private void UpdateEmployee()
     {
-        ShowHeader("UPDATE EMPLOYEE");
+        ConsoleHelper.ShowHeader(
+            "UPDATE EMPLOYEE"
+        );
 
-        int id = InputHelper.ReadEmployeeId();
+        int id =
+            InputHelper.ReadEmployeeId();
 
         Employee? employee =
             _employeeService.FindById(id);
 
         if (employee == null)
         {
-            ShowError("Employee not found.");
+            ConsoleHelper.ShowError(
+                "Employee not found."
+            );
 
             return;
         }
 
         Console.WriteLine();
-
         Console.WriteLine(
             "Current employee data:"
         );
 
         Console.WriteLine();
 
-        DisplayEmployee(employee);
+        EmployeeDisplay.ShowSingle(
+            employee
+        );
 
         Console.WriteLine();
-
         Console.WriteLine(
             "Enter new employee data:"
         );
 
         Console.WriteLine();
 
-        string name = InputHelper.ReadRequiredString(
-            "  Enter employee name: "
-        );
+        string name =
+            InputHelper.ReadRequiredString(
+                "  Enter employee name: "
+            );
 
-        string position = InputHelper.ReadRequiredString(
-            "  Enter employee position: "
-        );
+        string position =
+            InputHelper.ReadRequiredString(
+                "  Enter employee position: "
+            );
 
-        int age = InputHelper.ReadAge();
+        int age =
+            InputHelper.ReadAge();
 
         decimal salary =
             InputHelper.ReadNonNegativeDecimal(
@@ -643,43 +455,49 @@ public class EmployeeMenu
 
         if (isUpdated)
         {
-            ShowSuccess("Employee updated successfully.");
+            ConsoleHelper.ShowSuccess(
+                "Employee updated successfully."
+            );
         }
         else
         {
-            ShowError("Failed to update employee.");
+            ConsoleHelper.ShowError(
+                "Failed to update employee."
+            );
         }
     }
 
-    // ========================================
-    // DELETE EMPLOYEE
-    // ========================================
-
     private void DeleteEmployee()
     {
-        ShowHeader("DELETE EMPLOYEE");
+        ConsoleHelper.ShowHeader(
+            "DELETE EMPLOYEE"
+        );
 
-        int id = InputHelper.ReadEmployeeId();
+        int id =
+            InputHelper.ReadEmployeeId();
 
         Employee? employee =
             _employeeService.FindById(id);
 
         if (employee == null)
         {
-            ShowError("Employee not found.");
+            ConsoleHelper.ShowError(
+                "Employee not found."
+            );
 
             return;
         }
 
         Console.WriteLine();
-
         Console.WriteLine(
             "Employee to delete:"
         );
 
         Console.WriteLine();
 
-        DisplayEmployee(employee);
+        EmployeeDisplay.ShowSingle(
+            employee
+        );
 
         Console.WriteLine();
 
@@ -688,50 +506,66 @@ public class EmployeeMenu
                 "  Are you sure? (y/n): "
             );
 
-        if (confirmation.Equals(
+        if (!confirmation.Equals(
                 "y",
                 StringComparison.OrdinalIgnoreCase))
         {
-            bool isDeleted =
-                _employeeService.DeleteEmployee(id);
+            ConsoleHelper.ShowWarning(
+                "Delete cancelled."
+            );
 
-            Console.WriteLine();
+            return;
+        }
 
-            if (isDeleted)
-            {
-                ShowSuccess("Employee deleted successfully.");
-            }
-            else
-            {
-                ShowError("Failed to delete employee.");
-            }
+        bool isDeleted =
+            _employeeService.DeleteEmployee(id);
+
+        Console.WriteLine();
+
+        if (isDeleted)
+        {
+            ConsoleHelper.ShowSuccess(
+                "Employee deleted successfully."
+            );
         }
         else
         {
-            ShowWarning("Delete cancelled.");
+            ConsoleHelper.ShowError(
+                "Failed to delete employee."
+            );
         }
     }
 
-    // ========================================
-    // SORT EMPLOYEES
-    // ========================================
-
     private void SortEmployees()
     {
-        ShowHeader("SORT EMPLOYEES");
-
         while (true)
         {
-            Console.WriteLine("1. Sort by Name");
-            Console.WriteLine("2. Sort by Age");
-            Console.WriteLine("3. Sort by Salary");
-            Console.WriteLine("4. Back");
+            ConsoleHelper.ShowHeader(
+                "SORT EMPLOYEES"
+            );
+
+            Console.WriteLine(
+                "1. Sort by Name"
+            );
+
+            Console.WriteLine(
+                "2. Sort by Age"
+            );
+
+            Console.WriteLine(
+                "3. Sort by Salary"
+            );
+
+            Console.WriteLine(
+                "4. Back"
+            );
 
             Console.WriteLine();
 
-            int menu = InputHelper.ReadPositiveInt(
-                "  Choose sort: "
-            );
+            int menu =
+                InputHelper.ReadPositiveInt(
+                    "  Choose sort: "
+                );
 
             Console.WriteLine();
 
@@ -739,50 +573,47 @@ public class EmployeeMenu
             {
                 case 1:
                     SortByName();
-                    Pause();
-                    ShowHeader("SORT EMPLOYEES");
+                    ConsoleHelper.Pause();
                     break;
 
                 case 2:
                     SortByAge();
-                    Pause();
-                    ShowHeader("SORT EMPLOYEES");
+                    ConsoleHelper.Pause();
                     break;
 
                 case 3:
                     SortBySalary();
-                    Pause();
-                    ShowHeader("SORT EMPLOYEES");
+                    ConsoleHelper.Pause();
                     break;
 
                 case 4:
                     return;
 
                 default:
-                    ShowError("Invalid menu. Please choose 1-4.");
-                    Pause();
-                    ShowHeader("SORT EMPLOYEES");
+                    ConsoleHelper.ShowError(
+                        "Invalid menu. Please choose 1-4."
+                    );
+
+                    ConsoleHelper.Pause();
                     break;
             }
         }
     }
 
-    // ========================================
-    // SORT BY NAME
-    // ========================================
-
     private void SortByName()
     {
-        ShowHeader("SORT BY NAME");
+        ConsoleHelper.ShowHeader(
+            "SORT BY NAME"
+        );
 
         Console.WriteLine("1. A-Z");
         Console.WriteLine("2. Z-A");
-
         Console.WriteLine();
 
-        int menu = InputHelper.ReadPositiveInt(
-            "  Choose order: "
-        );
+        int menu =
+            InputHelper.ReadPositiveInt(
+                "  Choose order: "
+            );
 
         Console.WriteLine();
 
@@ -790,35 +621,41 @@ public class EmployeeMenu
 
         if (menu == 1)
         {
-            employees = _employeeService.Employees
-                .OrderBy(employee => employee.Name)
-                .ToList();
+            employees =
+                _employeeService.Employees
+                    .OrderBy(
+                        employee => employee.Name
+                    )
+                    .ToList();
         }
         else if (menu == 2)
         {
-            employees = _employeeService.Employees
-                .OrderByDescending(
-                    employee => employee.Name
-                )
-                .ToList();
+            employees =
+                _employeeService.Employees
+                    .OrderByDescending(
+                        employee => employee.Name
+                    )
+                    .ToList();
         }
         else
         {
-            ShowError("Invalid order.");
+            ConsoleHelper.ShowError(
+                "Invalid order."
+            );
 
             return;
         }
 
-        DisplayEmployeeList(employees);
+        EmployeeDisplay.ShowList(
+            employees
+        );
     }
-
-    // ========================================
-    // SORT BY AGE
-    // ========================================
 
     private void SortByAge()
     {
-        ShowHeader("SORT BY AGE");
+        ConsoleHelper.ShowHeader(
+            "SORT BY AGE"
+        );
 
         Console.WriteLine(
             "1. Youngest to Oldest"
@@ -830,9 +667,10 @@ public class EmployeeMenu
 
         Console.WriteLine();
 
-        int menu = InputHelper.ReadPositiveInt(
-            "  Choose order: "
-        );
+        int menu =
+            InputHelper.ReadPositiveInt(
+                "  Choose order: "
+            );
 
         Console.WriteLine();
 
@@ -840,35 +678,41 @@ public class EmployeeMenu
 
         if (menu == 1)
         {
-            employees = _employeeService.Employees
-                .OrderBy(employee => employee.Age)
-                .ToList();
+            employees =
+                _employeeService.Employees
+                    .OrderBy(
+                        employee => employee.Age
+                    )
+                    .ToList();
         }
         else if (menu == 2)
         {
-            employees = _employeeService.Employees
-                .OrderByDescending(
-                    employee => employee.Age
-                )
-                .ToList();
+            employees =
+                _employeeService.Employees
+                    .OrderByDescending(
+                        employee => employee.Age
+                    )
+                    .ToList();
         }
         else
         {
-            ShowError("Invalid order.");
+            ConsoleHelper.ShowError(
+                "Invalid order."
+            );
 
             return;
         }
 
-        DisplayEmployeeList(employees);
+        EmployeeDisplay.ShowList(
+            employees
+        );
     }
-
-    // ========================================
-    // SORT BY SALARY
-    // ========================================
 
     private void SortBySalary()
     {
-        ShowHeader("SORT BY SALARY");
+        ConsoleHelper.ShowHeader(
+            "SORT BY SALARY"
+        );
 
         Console.WriteLine(
             "1. Lowest to Highest"
@@ -880,9 +724,10 @@ public class EmployeeMenu
 
         Console.WriteLine();
 
-        int menu = InputHelper.ReadPositiveInt(
-            "  Choose order: "
-        );
+        int menu =
+            InputHelper.ReadPositiveInt(
+                "  Choose order: "
+            );
 
         Console.WriteLine();
 
@@ -890,115 +735,33 @@ public class EmployeeMenu
 
         if (menu == 1)
         {
-            employees = _employeeService.Employees
-                .OrderBy(employee => employee.Salary)
-                .ToList();
+            employees =
+                _employeeService.Employees
+                    .OrderBy(
+                        employee => employee.Salary
+                    )
+                    .ToList();
         }
         else if (menu == 2)
         {
-            employees = _employeeService.Employees
-                .OrderByDescending(
-                    employee => employee.Salary
-                )
-                .ToList();
+            employees =
+                _employeeService.Employees
+                    .OrderByDescending(
+                        employee => employee.Salary
+                    )
+                    .ToList();
         }
         else
         {
-            ShowError("Invalid order.");
+            ConsoleHelper.ShowError(
+                "Invalid order."
+            );
 
             return;
         }
 
-        DisplayEmployeeList(employees);
+        EmployeeDisplay.ShowList(
+            employees
+        );
     }
-
-    // ========================================
-    // DISPLAY HELPERS
-    // ========================================
-
-    private string TruncateText(string value, int maxLength)
-    {
-        return value.Length > maxLength
-            ? value[..maxLength]
-            : value;
-    }
-
-    // ========================================
-    // DISPLAY EMPLOYEE LIST
-    // ========================================
-
-    private void DisplayEmployeeList(
-        List<Employee> employees)
-    {
-        if (employees.Count == 0)
-        {
-            ShowWarning("No employees found.");
-            return;
-        }
-
-        Console.ForegroundColor = ConsoleColor.Cyan;
-
-        Console.WriteLine(
-            "  ┌─────┬─────────────────┬─────────────────────────┬──────┬────────────────┐"
-        );
-
-        Console.WriteLine(
-            "  │ ID  │ Name            │ Position                │ Age  │ Salary         │"
-        );
-
-        Console.WriteLine(
-            "  ├─────┼─────────────────┼─────────────────────────┼──────┼────────────────┤"
-        );
-
-        Console.ResetColor();
-
-        foreach (Employee employee in employees)
-        {
-            string name = TruncateText(
-                employee.Name,
-                NameColumnWidth
-            );
-
-            string position = TruncateText(
-                employee.Position,
-                PositionColumnWidth
-            );
-
-            Console.WriteLine(
-                $"  │ {employee.Id,-3} │ {name,-15} │ {position,-23} │ {employee.Age,-4} │ Rp {employee.Salary,11:N0} │"
-            );
-        }
-
-        Console.ForegroundColor = ConsoleColor.Cyan;
-
-        Console.WriteLine(
-            "  └─────┴─────────────────┴─────────────────────────┴──────┴────────────────┘"
-        );
-
-        Console.ResetColor();
-
-        Console.WriteLine();
-
-        Console.ForegroundColor = ConsoleColor.DarkGray;
-        Console.WriteLine(
-            $"  Total Employees: {employees.Count}"
-        );
-        Console.ResetColor();
-    }
-
-    // ========================================
-    // DISPLAY SINGLE EMPLOYEE
-    // ========================================
-
-    private void DisplayEmployee(Employee employee)
-    {
-        WriteBoxTop();
-        WriteBoxLine($"  ID       : {employee.Id}");
-        WriteBoxLine($"  Name     : {employee.Name}");
-        WriteBoxLine($"  Position : {employee.Position}");
-        WriteBoxLine($"  Age      : {employee.Age}");
-        WriteBoxLine($"  Salary   : Rp {employee.Salary:N0}");
-        WriteBoxBottom();
-    }
-
 }
