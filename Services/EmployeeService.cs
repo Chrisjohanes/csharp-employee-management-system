@@ -1,16 +1,19 @@
-﻿using System.Text.Json;
-using CSharpDotNetLearning.Models;
+﻿using CSharpDotNetLearning.Models;
+using CSharpDotNetLearning.Repositories;
 
 namespace CSharpDotNetLearning.Services;
 
 public class EmployeeService
 {
-    private readonly string _filePath = "Data/employees.json";
+    private readonly EmployeeRepository _employeeRepository;
 
     public List<Employee> Employees { get; private set; } = new();
 
-    public EmployeeService()
+    public EmployeeService(
+        EmployeeRepository employeeRepository)
     {
+        _employeeRepository = employeeRepository;
+
         LoadData();
     }
 
@@ -19,69 +22,15 @@ public class EmployeeService
     // LOAD DATA
     // ========================================
 
-    public void LoadData()
+    private void LoadData()
     {
-        try
+        Employees = _employeeRepository.Load();
+
+        if (Employees.Count == 0)
         {
-            if (!File.Exists(_filePath))
-            {
-                CreateInitialData();
-                SaveData();
-                return;
-            }
+            CreateInitialData();
 
-            string json = File.ReadAllText(_filePath);
-
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                CreateInitialData();
-                SaveData();
-                return;
-            }
-
-            Employees = JsonSerializer.Deserialize<List<Employee>>(json)
-                        ?? new List<Employee>();
-        }
-        catch (JsonException)
-        {
-            Console.WriteLine();
-            Console.WriteLine(
-                "Error: Employee data file contains invalid JSON."
-            );
-
-            Console.WriteLine(
-                "The application will use empty employee data."
-            );
-
-            Console.WriteLine();
-
-            Employees = new List<Employee>();
-        }
-        catch (IOException)
-        {
-            Console.WriteLine();
-            Console.WriteLine(
-                "Error: Unable to read employee data file."
-            );
-
-            Console.WriteLine(
-                "Please check the file or folder permissions."
-            );
-
-            Console.WriteLine();
-
-            Employees = new List<Employee>();
-        }
-        catch (Exception)
-        {
-            Console.WriteLine();
-            Console.WriteLine(
-                "Error: Failed to load employee data."
-            );
-
-            Console.WriteLine();
-
-            Employees = new List<Employee>();
+            SaveData();
         }
     }
 
@@ -90,51 +39,9 @@ public class EmployeeService
     // SAVE DATA
     // ========================================
 
-    public void SaveData()
+    private void SaveData()
     {
-        try
-        {
-            string? directory = Path.GetDirectoryName(_filePath);
-
-            if (!string.IsNullOrEmpty(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
-
-            JsonSerializerOptions options = new()
-            {
-                WriteIndented = true
-            };
-
-            string json = JsonSerializer.Serialize(
-                Employees,
-                options
-            );
-
-            File.WriteAllText(_filePath, json);
-        }
-        catch (IOException)
-        {
-            Console.WriteLine();
-            Console.WriteLine(
-                "Error: Unable to save employee data."
-            );
-
-            Console.WriteLine(
-                "Please check the file or folder permissions."
-            );
-
-            Console.WriteLine();
-        }
-        catch (Exception)
-        {
-            Console.WriteLine();
-            Console.WriteLine(
-                "Error: Failed to save employee data."
-            );
-
-            Console.WriteLine();
-        }
+        _employeeRepository.Save(Employees);
     }
 
 
@@ -197,7 +104,9 @@ public class EmployeeService
     {
         int newId = Employees.Count == 0
             ? 1
-            : Employees.Max(employee => employee.Id) + 1;
+            : Employees.Max(
+                employee => employee.Id
+            ) + 1;
 
         Employee employee = new()
         {
@@ -220,7 +129,8 @@ public class EmployeeService
     // SEARCH EMPLOYEE BY NAME
     // ========================================
 
-    public List<Employee> SearchByName(string name)
+    public List<Employee> SearchByName(
+        string name)
     {
         return Employees
             .Where(employee =>
@@ -232,7 +142,13 @@ public class EmployeeService
             .ToList();
     }
 
-    public List<Employee> FilterByPosition(string position)
+
+    // ========================================
+    // FILTER EMPLOYEE BY POSITION
+    // ========================================
+
+    public List<Employee> FilterByPosition(
+        string position)
     {
         return Employees
             .Where(employee =>
@@ -244,10 +160,17 @@ public class EmployeeService
             .ToList();
     }
 
+
+    // ========================================
+    // GROUP EMPLOYEE BY POSITION
+    // ========================================
+
     public Dictionary<string, int> GroupByPosition()
     {
         return Employees
-            .GroupBy(employee => employee.Position)
+            .GroupBy(
+                employee => employee.Position
+            )
             .ToDictionary(
                 group => group.Key,
                 group => group.Count()
