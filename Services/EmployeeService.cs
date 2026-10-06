@@ -244,6 +244,16 @@ public class EmployeeService
             .ToList();
     }
 
+    public Dictionary<string, int> GroupByPosition()
+    {
+        return Employees
+            .GroupBy(employee => employee.Position)
+            .ToDictionary(
+                group => group.Key,
+                group => group.Count()
+            );
+    }
+
 
     // ========================================
     // FIND EMPLOYEE BY ID

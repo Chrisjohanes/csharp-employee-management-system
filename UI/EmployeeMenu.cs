@@ -83,6 +83,8 @@ public class EmployeeMenu
     // UI HELPERS
     // ========================================
 
+    private const int BoxWidth = 50;
+
     private void ShowHeader(string title)
     {
         Console.Clear();
@@ -95,30 +97,32 @@ public class EmployeeMenu
         Console.ResetColor();
 
         Console.WriteLine();
+
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine($"  {title}");
         Console.ResetColor();
+
         Console.WriteLine();
     }
 
     private void ShowSuccess(string message)
     {
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($"✓ {message}");
+        Console.WriteLine($"  ✓ {message}");
         Console.ResetColor();
     }
 
     private void ShowError(string message)
     {
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"✗ {message}");
+        Console.WriteLine($"  ✗ {message}");
         Console.ResetColor();
     }
 
     private void ShowWarning(string message)
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"⚠ {message}");
+        Console.WriteLine($"  ⚠ {message}");
         Console.ResetColor();
     }
 
@@ -126,11 +130,61 @@ public class EmployeeMenu
     {
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.DarkGray;
-        Console.Write("Press ENTER to continue...");
+        Console.Write("  Press ENTER to continue...");
         Console.ResetColor();
         Console.ReadLine();
     }
 
+    private void WriteBoxTop()
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine($"  ┌{new string('─', BoxWidth)}┐");
+        Console.ResetColor();
+    }
+
+    private void WriteBoxTitle(string title)
+    {
+        string content = CenterText(title, BoxWidth);
+
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine($"  │{content}│");
+        Console.WriteLine($"  ├{new string('─', BoxWidth)}┤");
+        Console.ResetColor();
+    }
+
+    private void WriteBoxLine(string content)
+    {
+        if (content.Length > BoxWidth)
+        {
+            content = content[..BoxWidth];
+        }
+
+        Console.WriteLine(
+            $"  │{content.PadRight(BoxWidth)}│"
+        );
+    }
+
+    private void WriteBoxBottom()
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine($"  └{new string('─', BoxWidth)}┘");
+        Console.ResetColor();
+    }
+
+    private string CenterText(string text, int width)
+    {
+        if (text.Length >= width)
+        {
+            return text[..width];
+        }
+
+        int leftPadding = (width - text.Length) / 2;
+        int rightPadding = width - text.Length - leftPadding;
+
+        return new string(' ', leftPadding)
+            + text
+            + new string(' ', rightPadding);
+    }
 
     // ========================================
     // SHOW MAIN MENU
@@ -140,25 +194,20 @@ public class EmployeeMenu
     {
         ShowHeader("MAIN MENU");
 
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("  ┌──────────────────────────────────────────────────┐");
-        Console.WriteLine("  │                    MAIN MENU                     │");
-        Console.WriteLine("  ├──────────────────────────────────────────────────┤");
-        Console.ResetColor();
+        WriteBoxTop();
+        WriteBoxTitle("MAIN MENU");
 
-        Console.WriteLine("  │  [1]  Dashboard                                  │");
-        Console.WriteLine("  │  [2]  View Employees                             │");
-        Console.WriteLine("  │  [3]  Add Employee                               │");
-        Console.WriteLine("  │  [4]  Search Employee                            │");
-        Console.WriteLine("  │  [5]  Filter Employees                           │");
-        Console.WriteLine("  │  [6]  Update Employee                            │");
-        Console.WriteLine("  │  [7]  Delete Employee                            │");
-        Console.WriteLine("  │  [8]  Sort Employees                             │");
-        Console.WriteLine("  │  [9]  Exit                                       │");
+        WriteBoxLine("  [1]  Dashboard");
+        WriteBoxLine("  [2]  View Employees");
+        WriteBoxLine("  [3]  Add Employee");
+        WriteBoxLine("  [4]  Search Employee");
+        WriteBoxLine("  [5]  Filter Employees");
+        WriteBoxLine("  [6]  Update Employee");
+        WriteBoxLine("  [7]  Delete Employee");
+        WriteBoxLine("  [8]  Sort Employees");
+        WriteBoxLine("  [9]  Exit");
 
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("  └──────────────────────────────────────────────────┘");
-        Console.ResetColor();
+        WriteBoxBottom();
 
         Console.WriteLine();
     }
@@ -199,7 +248,6 @@ public class EmployeeMenu
         decimal lowestSalary = employees
             .Min(employee => employee.Salary);
 
-
         // ========================================
         // EMPLOYEE HIGHLIGHTS
         // ========================================
@@ -213,115 +261,82 @@ public class EmployeeMenu
         Employee oldestEmployee = employees
             .MaxBy(employee => employee.Age)!;
 
-
         // ========================================
         // SUMMARY
         // ========================================
 
-        Console.ForegroundColor = ConsoleColor.Cyan;
+        WriteBoxTop();
+        WriteBoxTitle("SUMMARY");
 
-        Console.WriteLine(
-            "  ┌──────────────────────────────────────────────────┐"
+        WriteBoxLine(
+            $"  Total Employees     : {totalEmployees}"
         );
 
-        Console.WriteLine(
-            "  │                    SUMMARY                       │"
+        WriteBoxLine(
+            $"  Average Age         : {averageAge:N2} years"
         );
 
-        Console.WriteLine(
-            "  ├──────────────────────────────────────────────────┤"
+        WriteBoxLine(
+            $"  Average Salary      : Rp {averageSalary:N0}"
         );
 
-        Console.ResetColor();
-
-        Console.WriteLine(
-            $"  │  Total Employees     : {totalEmployees,21} │"
+        WriteBoxLine(
+            $"  Highest Salary      : Rp {highestSalary:N0}"
         );
 
-        Console.WriteLine(
-            $"  │  Average Age         : {averageAge,10:N2} years     │"
+        WriteBoxLine(
+            $"  Lowest Salary       : Rp {lowestSalary:N0}"
         );
 
-        Console.WriteLine(
-            $"  │  Average Salary      : Rp {averageSalary,14:N0} │"
-        );
-
-        Console.WriteLine(
-            $"  │  Highest Salary      : Rp {highestSalary,14:N0} │"
-        );
-
-        Console.WriteLine(
-            $"  │  Lowest Salary       : Rp {lowestSalary,14:N0} │"
-        );
-
-        Console.ForegroundColor = ConsoleColor.Cyan;
-
-        Console.WriteLine(
-            "  └──────────────────────────────────────────────────┘"
-        );
-
-        Console.ResetColor();
+        WriteBoxBottom();
 
         Console.WriteLine();
-
 
         // ========================================
         // TOP EMPLOYEES
         // ========================================
 
-        Console.ForegroundColor = ConsoleColor.Cyan;
+        WriteBoxTop();
+        WriteBoxTitle("TOP EMPLOYEES");
 
-        Console.WriteLine(
-            "  ┌──────────────────────────────────────────────────┐"
+        WriteBoxLine(
+            $"  Highest Paid        : {highestPaidEmployee.Name,-21}"
         );
 
-        Console.WriteLine(
-            "  │                  TOP EMPLOYEES                   │"
+        WriteBoxLine(
+            $"  Youngest Employee   : {youngestEmployee.Name,-21}"
         );
 
-        Console.WriteLine(
-            "  ├──────────────────────────────────────────────────┤"
+        WriteBoxLine(
+            $"  Oldest Employee     : {oldestEmployee.Name,-21}"
         );
 
-        Console.ResetColor();
-
-        Console.WriteLine(
-            $"  │  Highest Paid        : {highestPaidEmployee.Name,-21} │"
-        );
-
-        Console.WriteLine(
-            $"  │  Youngest Employee   : {youngestEmployee.Name,-21} │"
-        );
-
-        Console.WriteLine(
-            $"  │  Oldest Employee     : {oldestEmployee.Name,-21} │"
-        );
-
-        Console.ForegroundColor = ConsoleColor.Cyan;
-
-        Console.WriteLine(
-            "  └──────────────────────────────────────────────────┘"
-        );
-
-        Console.ResetColor();
+        WriteBoxBottom();
 
         Console.WriteLine();
 
-        Console.ForegroundColor = ConsoleColor.DarkGray;
+        // ========================================
+        // EMPLOYEE BY POSITION
+        // ========================================
 
-        Console.WriteLine(
-            $"  Highest Paid : {highestPaidEmployee.Name} - Rp {highestPaidEmployee.Salary:N0}"
-        );
+        Dictionary<string, int> employeesByPosition =
+            _employeeService.GroupByPosition();
 
-        Console.WriteLine(
-            $"  Youngest     : {youngestEmployee.Name} - {youngestEmployee.Age} years"
-        );
+        WriteBoxTop();
+        WriteBoxTitle("EMPLOYEE BY POSITION");
 
-        Console.WriteLine(
-            $"  Oldest       : {oldestEmployee.Name} - {oldestEmployee.Age} years"
-        );
+        foreach (KeyValuePair<string, int> item in employeesByPosition)
+        {
+            string position = item.Key.Length > 35
+                ? item.Key[..35]
+                : item.Key;
 
-        Console.ResetColor();
+            WriteBoxLine(
+                $"  {position,-25} : {item.Value}"
+            );
+        }
+
+        WriteBoxBottom();
     }
 
 
@@ -911,15 +926,17 @@ public class EmployeeMenu
             return;
         }
 
+        Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine(
-            "┌─────┬─────────────────┬─────────────────────────┬──────┬────────────────┐"
+            "  ┌─────┬─────────────────┬─────────────────────────┬──────┬────────────────┐"
         );
         Console.WriteLine(
-            "│ ID  │ Name            │ Position                │ Age  │ Salary         │"
+            "  │ ID  │ Name            │ Position                │ Age  │ Salary         │"
         );
         Console.WriteLine(
-            "├─────┼─────────────────┼─────────────────────────┼──────┼────────────────┤"
+            "  ├─────┼─────────────────┼─────────────────────────┼──────┼────────────────┤"
         );
+        Console.ResetColor();
 
         foreach (Employee employee in employees)
         {
@@ -932,17 +949,19 @@ public class EmployeeMenu
                 : employee.Position;
 
             Console.WriteLine(
-                $"│ {employee.Id,-3} │ {name,-15} │ {position,-23} │ {employee.Age,-4} │ Rp {employee.Salary,11:N0} │"
+                $"  │ {employee.Id,-3} │ {name,-15} │ {position,-23} │ {employee.Age,-4} │ Rp {employee.Salary,11:N0} │"
             );
         }
 
+        Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine(
-            "└─────┴─────────────────┴─────────────────────────┴──────┴────────────────┘"
+            "  └─────┴─────────────────┴─────────────────────────┴──────┴────────────────┘"
         );
+        Console.ResetColor();
 
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.DarkGray;
-        Console.WriteLine($"Total Employees: {employees.Count}");
+        Console.WriteLine($"  Total Employees: {employees.Count}");
         Console.ResetColor();
     }
 
@@ -953,27 +972,13 @@ public class EmployeeMenu
 
     private void DisplayEmployee(Employee employee)
     {
-        Console.WriteLine(
-            "┌──────────────────────────────────────────────┐"
-        );
-        Console.WriteLine(
-            $"│ ID       : {employee.Id,-32} │"
-        );
-        Console.WriteLine(
-            $"│ Name     : {employee.Name,-32} │"
-        );
-        Console.WriteLine(
-            $"│ Position : {employee.Position,-32} │"
-        );
-        Console.WriteLine(
-            $"│ Age      : {employee.Age,-32} │"
-        );
-        Console.WriteLine(
-            $"│ Salary   : Rp {employee.Salary,27:N0} │"
-        );
-        Console.WriteLine(
-            "└──────────────────────────────────────────────┘"
-        );
+        WriteBoxTop();
+        WriteBoxLine($"  ID       : {employee.Id}");
+        WriteBoxLine($"  Name     : {employee.Name}");
+        WriteBoxLine($"  Position : {employee.Position}");
+        WriteBoxLine($"  Age      : {employee.Age}");
+        WriteBoxLine($"  Salary   : Rp {employee.Salary:N0}");
+        WriteBoxBottom();
     }
 
 
@@ -988,6 +993,7 @@ public class EmployeeMenu
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("╔══════════════════════════════════════════════════════╗");
         Console.WriteLine("║              EMPLOYEE MANAGEMENT SYSTEM              ║");
+        Console.WriteLine("║                    C# / .NET                         ║");
         Console.WriteLine("╚══════════════════════════════════════════════════════╝");
         Console.ResetColor();
 
