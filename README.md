@@ -33,7 +33,7 @@ The project is continuously improved as I learn more about C# and .NET.
 
 The project is developed using Visual Studio with a simple separation between Models, Services, and UI components.
 
-![Development](Screenshots/Coding.png)
+![Development](Screenshots/Code.png)
 
 ### Main Menu
 
