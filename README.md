@@ -33,7 +33,7 @@ The project is continuously improved as I learn more about C# and .NET.
 
 The project is developed using Visual Studio with a simple separation between Models, Services, and UI components.
 
-![Development](Screenshots/coding.png)
+![Development](Screenshots/Coding.png)
 
 ### Main Menu
 
@@ -45,7 +45,7 @@ The console application provides a menu for managing employee data.
 
 The dashboard displays employee statistics such as total employees, average age, salary information, top employees, and employee distribution by position.
 
-![Dashboard](Screenshots/dashboard.png)
+![Dashboard](Screenshots/Dashboard.png)
 
 ## Tech Stack
 
