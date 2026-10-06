@@ -12,7 +12,6 @@ public class EmployeeMenu
         _employeeService = employeeService;
     }
 
-
     // ========================================
     // RUN APPLICATION
     // ========================================
@@ -78,12 +77,14 @@ public class EmployeeMenu
         }
     }
 
-
     // ========================================
     // UI HELPERS
     // ========================================
 
     private const int BoxWidth = 50;
+    private const int NameColumnWidth = 15;
+    private const int PositionColumnWidth = 23;
+    private const int PositionDashboardWidth = 25;
 
     private void ShowHeader(string title)
     {
@@ -187,6 +188,15 @@ public class EmployeeMenu
     }
 
     // ========================================
+    // MENU HELPERS
+    // ========================================
+
+    private void WriteMenuItem(int number, string label)
+    {
+        WriteBoxLine($"  [{number}]  {label}");
+    }
+
+    // ========================================
     // SHOW MAIN MENU
     // ========================================
 
@@ -197,21 +207,20 @@ public class EmployeeMenu
         WriteBoxTop();
         WriteBoxTitle("MAIN MENU");
 
-        WriteBoxLine("  [1]  Dashboard");
-        WriteBoxLine("  [2]  View Employees");
-        WriteBoxLine("  [3]  Add Employee");
-        WriteBoxLine("  [4]  Search Employee");
-        WriteBoxLine("  [5]  Filter Employees");
-        WriteBoxLine("  [6]  Update Employee");
-        WriteBoxLine("  [7]  Delete Employee");
-        WriteBoxLine("  [8]  Sort Employees");
-        WriteBoxLine("  [9]  Exit");
+        WriteMenuItem(1, "Dashboard");
+        WriteMenuItem(2, "View Employees");
+        WriteMenuItem(3, "Add Employee");
+        WriteMenuItem(4, "Search Employee");
+        WriteMenuItem(5, "Filter Employees");
+        WriteMenuItem(6, "Update Employee");
+        WriteMenuItem(7, "Delete Employee");
+        WriteMenuItem(8, "Sort Employees");
+        WriteMenuItem(9, "Exit");
 
         WriteBoxBottom();
 
         Console.WriteLine();
     }
-
 
     // ========================================
     // DASHBOARD
@@ -327,9 +336,10 @@ public class EmployeeMenu
 
         foreach (KeyValuePair<string, int> item in employeesByPosition)
         {
-            string position = item.Key.Length > 35
-                ? item.Key[..35]
-                : item.Key;
+            string position = TruncateText(
+                item.Key,
+                PositionDashboardWidth
+            );
 
             WriteBoxLine(
                 $"  {position,-25} : {item.Value}"
@@ -338,7 +348,6 @@ public class EmployeeMenu
 
         WriteBoxBottom();
     }
-
 
     // ========================================
     // VIEW EMPLOYEES
@@ -352,7 +361,6 @@ public class EmployeeMenu
             _employeeService.Employees
         );
     }
-
 
     // ========================================
     // ADD EMPLOYEE
@@ -393,7 +401,6 @@ public class EmployeeMenu
             $"  Employee ID : {employee.Id}"
         );
     }
-
 
     // ========================================
     // SEARCH EMPLOYEE
@@ -443,7 +450,6 @@ public class EmployeeMenu
         }
     }
 
-
     // ========================================
     // SEARCH BY ID
     // ========================================
@@ -474,7 +480,6 @@ public class EmployeeMenu
 
         DisplayEmployee(employee);
     }
-
 
     // ========================================
     // SEARCH BY NAME
@@ -646,7 +651,6 @@ public class EmployeeMenu
         }
     }
 
-
     // ========================================
     // DELETE EMPLOYEE
     // ========================================
@@ -708,7 +712,6 @@ public class EmployeeMenu
         }
     }
 
-
     // ========================================
     // SORT EMPLOYEES
     // ========================================
@@ -764,7 +767,6 @@ public class EmployeeMenu
         }
     }
 
-
     // ========================================
     // SORT BY NAME
     // ========================================
@@ -809,7 +811,6 @@ public class EmployeeMenu
 
         DisplayEmployeeList(employees);
     }
-
 
     // ========================================
     // SORT BY AGE
@@ -861,7 +862,6 @@ public class EmployeeMenu
         DisplayEmployeeList(employees);
     }
 
-
     // ========================================
     // SORT BY SALARY
     // ========================================
@@ -912,6 +912,16 @@ public class EmployeeMenu
         DisplayEmployeeList(employees);
     }
 
+    // ========================================
+    // DISPLAY HELPERS
+    // ========================================
+
+    private string TruncateText(string value, int maxLength)
+    {
+        return value.Length > maxLength
+            ? value[..maxLength]
+            : value;
+    }
 
     // ========================================
     // DISPLAY EMPLOYEE LIST
@@ -927,26 +937,32 @@ public class EmployeeMenu
         }
 
         Console.ForegroundColor = ConsoleColor.Cyan;
+
         Console.WriteLine(
             "  ┌─────┬─────────────────┬─────────────────────────┬──────┬────────────────┐"
         );
+
         Console.WriteLine(
             "  │ ID  │ Name            │ Position                │ Age  │ Salary         │"
         );
+
         Console.WriteLine(
             "  ├─────┼─────────────────┼─────────────────────────┼──────┼────────────────┤"
         );
+
         Console.ResetColor();
 
         foreach (Employee employee in employees)
         {
-            string name = employee.Name.Length > 15
-                ? employee.Name[..15]
-                : employee.Name;
+            string name = TruncateText(
+                employee.Name,
+                NameColumnWidth
+            );
 
-            string position = employee.Position.Length > 23
-                ? employee.Position[..23]
-                : employee.Position;
+            string position = TruncateText(
+                employee.Position,
+                PositionColumnWidth
+            );
 
             Console.WriteLine(
                 $"  │ {employee.Id,-3} │ {name,-15} │ {position,-23} │ {employee.Age,-4} │ Rp {employee.Salary,11:N0} │"
@@ -954,17 +970,21 @@ public class EmployeeMenu
         }
 
         Console.ForegroundColor = ConsoleColor.Cyan;
+
         Console.WriteLine(
             "  └─────┴─────────────────┴─────────────────────────┴──────┴────────────────┘"
         );
+
         Console.ResetColor();
 
         Console.WriteLine();
+
         Console.ForegroundColor = ConsoleColor.DarkGray;
-        Console.WriteLine($"  Total Employees: {employees.Count}");
+        Console.WriteLine(
+            $"  Total Employees: {employees.Count}"
+        );
         Console.ResetColor();
     }
-
 
     // ========================================
     // DISPLAY SINGLE EMPLOYEE
@@ -981,27 +1001,4 @@ public class EmployeeMenu
         WriteBoxBottom();
     }
 
-
-    // ========================================
-    // EXIT APPLICATION
-    // ========================================
-
-    private void ExitApplication()
-    {
-        Console.Clear();
-
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("╔══════════════════════════════════════════════════════╗");
-        Console.WriteLine("║              EMPLOYEE MANAGEMENT SYSTEM              ║");
-        Console.WriteLine("║                    C# / .NET                         ║");
-        Console.WriteLine("╚══════════════════════════════════════════════════════╝");
-        Console.ResetColor();
-
-        Console.WriteLine();
-        ShowSuccess("Thank you for using Employee Management System!");
-        Console.WriteLine("  Goodbye!");
-        Console.WriteLine();
-
-        Environment.Exit(0);
-    }
 }
