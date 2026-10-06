@@ -1,0 +1,30 @@
+[
+  {
+    "Id": 1,
+    "Name": "Christian",
+    "Position": "IT Developer",
+    "Age": 24,
+    "Salary": 7500000
+  },
+  {
+    "Id": 2,
+    "Name": "Budi",
+    "Position": "Software Developer",
+    "Age": 25,
+    "Salary": 8000000
+  },
+  {
+    "Id": 3,
+    "Name": "Andi",
+    "Position": "Software Engineer",
+    "Age": 23,
+    "Salary": 8500000
+  },
+  {
+    "Id": 4,
+    "Name": "Doni",
+    "Position": "QA Engineer",
+    "Age": 26,
+    "Salary": 7000000
+  }
+]
