@@ -1,8 +1,10 @@
 # C# Employee Management System
 
-A console-based Employee Management System built with C# and .NET.
+A console-based Employee Management System built with **C# and .NET**.
 
-This project was created as a hands-on learning project to practice C# fundamentals, Object-Oriented Programming, LINQ, file handling, JSON serialization, validation, and basic application structure.
+This project started as a hands-on learning project to practice C# fundamentals, Object-Oriented Programming, LINQ, file handling, JSON serialization, validation, and basic application structure.
+
+The project is continuously improved as I learn more about C# and .NET.
 
 ## Features
 
@@ -19,10 +21,31 @@ This project was created as a hands-on learning project to practice C# fundament
   - Salary
 - Employee dashboard
 - Employee statistics
+- Employee grouping by position
 - Input validation
 - JSON data persistence
 - Console-based user interface
 - Success, error, and warning messages
+
+## Screenshots
+
+### Development
+
+The project is developed using Visual Studio with a simple separation between Models, Services, and UI components.
+
+![Development](Screenshots/coding.png)
+
+### Main Menu
+
+The console application provides a menu for managing employee data.
+
+![Main Menu](Screenshots/main-menu.png)
+
+### Employee Dashboard
+
+The dashboard displays employee statistics such as total employees, average age, salary information, top employees, and employee distribution by position.
+
+![Dashboard](Screenshots/dashboard.png)
 
 ## Tech Stack
 
@@ -32,6 +55,7 @@ This project was created as a hands-on learning project to practice C# fundament
 - System.Text.Json
 - JSON
 - Object-Oriented Programming
+- Git & GitHub
 
 ## Project Structure
 
@@ -46,6 +70,10 @@ CSharpDotNetLearning/
 ├── UI/
 │   ├── EmployeeMenu.cs
 │   └── InputHelper.cs
+├── Screenshots/
+│   ├── coding.png
+│   ├── main-menu.png
+│   └── dashboard.png
 ├── .gitignore
 ├── CSharpDotNetLearning.csproj
 ├── Program.cs
@@ -91,6 +119,17 @@ Contains employee data stored in JSON format.
 ```text
 Data/
 └── employees.json
+```
+
+### Screenshots
+
+Contains screenshots of the development environment and application output.
+
+```text
+Screenshots/
+├── coding.png
+├── main-menu.png
+└── dashboard.png
 ```
 
 ## How to Run
@@ -141,6 +180,7 @@ The application provides basic employee statistics including:
 - Highest-paid employee
 - Youngest employee
 - Oldest employee
+- Employee count by position
 
 ## Search and Filter
 
@@ -157,9 +197,9 @@ The search and filter functionality uses LINQ and case-insensitive text matching
 
 Employees can be sorted by:
 
-- Name: A-Z / Z-A
-- Age: Youngest to Oldest / Oldest to Youngest
-- Salary: Lowest to Highest / Highest to Lowest
+- **Name:** A-Z / Z-A
+- **Age:** Youngest to Oldest / Oldest to Youngest
+- **Salary:** Lowest to Highest / Highest to Lowest
 
 ## Data Persistence
 
@@ -186,7 +226,7 @@ Invalid input is rejected and the user is asked to enter the value again.
 
 ## Learning Goals
 
-This project is part of my hands-on C#/.NET learning journey.
+This project is part of my hands-on **C#/.NET learning journey**.
 
 The main goals are to practice:
 
@@ -211,11 +251,12 @@ The main goals are to practice:
 
 The current version is a console-based Employee Management System using JSON as its data source.
 
+The application currently supports CRUD operations, search, filtering, sorting, dashboard statistics, employee grouping by position, input validation, and JSON data persistence.
+
 ## Future Improvements
 
 Planned improvements include:
 
-- Employee grouping and advanced statistics
 - More filtering options
 - Repository Pattern
 - SQL Server database
@@ -230,3 +271,7 @@ Planned improvements include:
 This project is continuously improved as I learn more about C# and .NET.
 
 The goal is to gradually evolve the application from a simple console application into a more complete .NET backend project.
+
+## Repository
+
+GitHub: https://github.com/Chrisjohanes/csharp-employee-management-system
