@@ -1,8 +1,15 @@
-﻿using CSharpDotNetLearning.Services;
+﻿using CSharpDotNetLearning.Repositories;
+using CSharpDotNetLearning.Services;
 using CSharpDotNetLearning.UI;
 
-EmployeeService employeeService = new();
+EmployeeRepository employeeRepository = new();
 
-EmployeeMenu employeeMenu = new(employeeService);
+EmployeeService employeeService = new(
+    employeeRepository
+);
+
+EmployeeMenu employeeMenu = new(
+    employeeService
+);
 
 employeeMenu.Run();
