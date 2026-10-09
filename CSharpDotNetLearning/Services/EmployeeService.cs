@@ -5,12 +5,12 @@ namespace CSharpDotNetLearning.Services;
 
 public class EmployeeService
 {
-    private readonly EmployeeRepository _employeeRepository;
+    private readonly IEmployeeRepository _employeeRepository;
 
     public List<Employee> Employees { get; private set; } = new();
 
     public EmployeeService(
-        EmployeeRepository employeeRepository)
+        IEmployeeRepository employeeRepository)
     {
         _employeeRepository = employeeRepository;
 
