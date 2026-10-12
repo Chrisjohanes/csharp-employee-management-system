@@ -40,15 +40,15 @@ The project demonstrates practical experience with Object-Oriented Programming, 
 
 #### Main Menu
 
-![Console Main Menu](Screenshots/main-menu.png)
+![Console Main Menu](https://raw.githubusercontent.com/Chrisjohanes/csharp-employee-management-system/main/CSharpDotNetLearning/Screenshots/main-menu.png)
 
 #### Employee Dashboard
 
-![Console Employee Dashboard](Screenshots/Dashboard.png)
+![Console Employee Dashboard](https://raw.githubusercontent.com/Chrisjohanes/csharp-employee-management-system/main/CSharpDotNetLearning/Screenshots/Dashboard.png)
 
 #### Development Environment
 
-![Console Development Environment](Screenshots/Code.png)
+![Console Development Environment](https://raw.githubusercontent.com/Chrisjohanes/csharp-employee-management-system/main/CSharpDotNetLearning/Screenshots/Code.png)
 
 ### Web Application
 
@@ -64,7 +64,7 @@ The dashboard displays employee statistics and provides an overview of employee 
 
 The employee management page displays employee records with actions to add, edit, and delete employees.
 
-![Employee Management Web Application](Screenshots/web-employees.png)
+![Employee Management Web Application](https://raw.githubusercontent.com/Chrisjohanes/csharp-employee-management-system/main/CSharpDotNetLearning/Screenshots/web-employees.png)
 
 The web interface includes:
 - Employee ID, name, position, age, and salary
