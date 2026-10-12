@@ -3,7 +3,7 @@ using CSharpDotNetLearning.Models;
 
 namespace CSharpDotNetLearning.Repositories;
 
-public class EmployeeRepository
+public class EmployeeRepository : IEmployeeRepository
 {
     private readonly string _filePath;
 
