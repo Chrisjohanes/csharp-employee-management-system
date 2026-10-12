@@ -59,15 +59,15 @@ It demonstrates practical experience with object-oriented programming, LINQ, the
 
 #### Main Menu
 
-![Console Main Menu](https://raw.githubusercontent.com/Chrisjohanes/csharp-employee-management-system/development/CSharpDotNetLearning/Screenshots/main-menu.png)
+![Console Main Menu](https://raw.githubusercontent.com/Chrisjohanes/csharp-employee-management-system/main/CSharpDotNetLearning/Screenshots/main-menu.png)
 
 #### Employee Dashboard
 
-![Console Employee Dashboard](https://raw.githubusercontent.com/Chrisjohanes/csharp-employee-management-system/development/CSharpDotNetLearning/Screenshots/Dashboard.png)
+![Console Employee Dashboard](https://raw.githubusercontent.com/Chrisjohanes/csharp-employee-management-system/main/CSharpDotNetLearning/Screenshots/Dashboard.png)
 
 #### Development Environment
 
-![Console Development Environment](https://raw.githubusercontent.com/Chrisjohanes/csharp-employee-management-system/development/CSharpDotNetLearning/Screenshots/Code.png)
+![Console Development Environment](https://raw.githubusercontent.com/Chrisjohanes/csharp-employee-management-system/main/CSharpDotNetLearning/Screenshots/Code.png)
 
 ### Web Application
 
@@ -75,7 +75,7 @@ It demonstrates practical experience with object-oriented programming, LINQ, the
 
 The web application provides an employee management interface for viewing, creating, editing, and deleting employee records.
 
-![Employee Management Web Application](https://raw.githubusercontent.com/Chrisjohanes/csharp-employee-management-system/development/CSharpDotNetLearning/Screenshots/web-employees.png)
+![Employee Management Web Application](https://raw.githubusercontent.com/Chrisjohanes/csharp-employee-management-system/main/CSharpDotNetLearning/Screenshots/web-employees.png)
 
 The interface includes:
 
