@@ -1,277 +1,313 @@
-# C# Employee Management System
+# Employee Management System — C#/.NET
 
-A console-based Employee Management System built with **C# and .NET**.
+A hands-on Employee Management System built with **C#, .NET 10, and ASP.NET Core MVC**. This project started as a console-based application and has evolved into a web dashboard as part of my continuous learning journey in software development.
 
-This project started as a hands-on learning project to practice C# fundamentals, Object-Oriented Programming, LINQ, file handling, JSON serialization, validation, and basic application structure.
-
-The project is continuously improved as I learn more about C# and .NET.
+The project demonstrates practical experience with Object-Oriented Programming, LINQ, the Repository Pattern, JSON persistence, unit testing, and web application development.
 
 ## Features
 
-- Create employee
-- View employee list
-- Update employee
-- Delete employee
-- Search employee by ID
-- Search employee by name
-- Filter employee by position
-- Sort employees by:
-  - Name
-  - Age
-  - Salary
-- Employee dashboard
-- Employee statistics
+### Console Application
+- Create, view, update, and delete employees
+- Search employees by ID or name
+- Filter employees by position
+- Sort employees by name, age, and salary
+- Employee dashboard and statistics
 - Employee grouping by position
-- Input validation
+- Input validation and error handling
 - JSON data persistence
 - Console-based user interface
 - Success, error, and warning messages
 
+### Web Application
+- Responsive employee management dashboard
+- Dynamic employee count and position statistics
+- Employee list with ID, name, position, age, and salary
+- Add employees through a web form
+- Edit employee information using a Bootstrap modal
+- Delete employees with a confirmation modal
+- Success and error notifications
+- Shared business logic through `EmployeeService`
+- JSON-based data persistence
+
+### Testing
+- Unit tests using xUnit
+- Tests for employee service operations
+- Fake repository for isolated service testing
+
 ## Screenshots
 
-### Development
+### Console Application
 
-The project is developed using Visual Studio with a simple separation between Models, Services, and UI components.
+#### Main Menu
 
-![Development](Screenshots/Code.png)
+![Console Main Menu](Screenshots/main-menu.png)
 
-### Main Menu
+#### Employee Dashboard
 
-The console application provides a menu for managing employee data.
+![Console Employee Dashboard](Screenshots/Dashboard.png)
 
-![Main Menu](Screenshots/main-menu.png)
+#### Development Environment
 
-### Employee Dashboard
+![Console Development Environment](Screenshots/Code.png)
 
-The dashboard displays employee statistics such as total employees, average age, salary information, top employees, and employee distribution by position.
+### Web Application
 
-![Dashboard](Screenshots/Dashboard.png)
+#### Employee Management Dashboard
+
+The dashboard displays employee statistics and provides an overview of employee records.
+
+<!-- Add a dashboard screenshot when available:
+![Web Employee Dashboard](Screenshots/web-dashboard.png)
+-->
+
+#### Employee List and CRUD Operations
+
+The employee management page displays employee records with actions to add, edit, and delete employees.
+
+![Employee Management Web Application](Screenshots/web-employees.png)
+
+The web interface includes:
+- Employee ID, name, position, age, and salary
+- An Add Employee form
+- An Edit Employee modal
+- A Delete Employee confirmation modal
 
 ## Tech Stack
 
-- C#
-- .NET
-- LINQ
-- System.Text.Json
-- JSON
-- Object-Oriented Programming
-- Git & GitHub
+| Technology | Purpose |
+|---|---|
+| C# | Application programming language |
+| .NET 10 | Application platform |
+| ASP.NET Core MVC | Web application architecture |
+| Razor Views | Server-rendered web pages |
+| HTML, CSS, JavaScript | Web interface and interactions |
+| Bootstrap | Responsive UI and modals |
+| LINQ | Searching, filtering, sorting, and grouping |
+| System.Text.Json | JSON serialization and deserialization |
+| Repository Pattern | Separation of data access and business logic |
+| Dependency Injection | Managing application services |
+| xUnit | Unit testing |
+| Git & GitHub | Version control and source code hosting |
 
 ## Project Structure
 
 ```text
 CSharpDotNetLearning/
-├── Data/
-│   └── employees.json
-├── Models/
-│   └── Employee.cs
-├── Services/
-│   └── EmployeeService.cs
-├── UI/
-│   ├── EmployeeMenu.cs
-│   └── InputHelper.cs
+├── CSharpDotNetLearning/
+│   ├── Data/
+│   │   └── employees.json
+│   ├── Models/
+│   │   └── Employee.cs
+│   ├── Repositories/
+│   │   ├── IEmployeeRepository.cs
+│   │   └── EmployeeRepository.cs
+│   ├── Services/
+│   │   └── EmployeeService.cs
+│   ├── UI/
+│   │   ├── EmployeeMenu.cs
+│   │   └── InputHelper.cs
+│   ├── CSharpDotNetLearning.csproj
+│   └── Program.cs
+│
+├── CSharpDotNetLearning.Tests/
+│   ├── EmployeeServiceTests.cs
+│   ├── FakeEmployeeRepository.cs
+│   └── CSharpDotNetLearning.Tests.csproj
+│
+├── EmployeeManagement.Web/
+│   ├── Controllers/
+│   │   ├── HomeController.cs
+│   │   └── EmployeesController.cs
+│   ├── Models/
+│   ├── Views/
+│   │   ├── Home/
+│   │   ├── Employees/
+│   │   │   ├── Index.cshtml
+│   │   │   └── Create.cshtml
+│   │   └── Shared/
+│   ├── wwwroot/
+│   │   ├── css/
+│   │   └── js/
+│   ├── EmployeeManagement.Web.csproj
+│   └── Program.cs
+│
 ├── Screenshots/
-│   ├── coding.png
+│   ├── Code.png
 │   ├── main-menu.png
-│   └── dashboard.png
+│   ├── Dashboard.png
+│   └── web-employees.png
+│
 ├── .gitignore
-├── CSharpDotNetLearning.csproj
-├── Program.cs
+├── CSharpDotNetLearning.slnx
 └── README.md
 ```
 
-## Application Structure
-
-The application is separated into several parts:
+## Architecture
 
 ### Models
 
-Contains the data model used by the application.
-
-```text
-Models/
-└── Employee.cs
-```
+The `Employee` model represents employee information, including ID, name, position, age, and salary.
 
 ### Services
 
-Contains employee-related business logic and JSON data persistence.
+`EmployeeService` contains employee business logic, including CRUD operations, searching, filtering, and grouping.
 
-```text
-Services/
-└── EmployeeService.cs
-```
+### Repositories
 
-### UI
+`IEmployeeRepository` defines the repository contract, while `EmployeeRepository` handles loading and saving employee records using JSON.
 
-Contains the console menu, input handling, and display logic.
+### Console UI
 
-```text
-UI/
-├── EmployeeMenu.cs
-└── InputHelper.cs
-```
+The console application provides menus, input handling, employee information displays, and dashboard statistics.
 
-### Data
+### Web Application
 
-Contains employee data stored in JSON format.
+The ASP.NET Core MVC application provides a browser-based interface using controllers and Razor views. Dependency injection connects the web application to the shared employee service and repository.
 
-```text
-Data/
-└── employees.json
-```
+### Unit Testing
 
-### Screenshots
+The xUnit test project verifies employee service behavior. A fake repository allows service operations to be tested without relying on the actual JSON data file.
 
-Contains screenshots of the development environment and application output.
+## Getting Started
 
-```text
-Screenshots/
-├── coding.png
-├── main-menu.png
-└── dashboard.png
-```
+### Prerequisites
 
-## How to Run
+- [.NET SDK](https://dotnet.microsoft.com/download) compatible with .NET 10
+- Git
+- Visual Studio or Visual Studio Code
 
 ### 1. Clone the repository
 
 ```bash
 git clone https://github.com/Chrisjohanes/csharp-employee-management-system.git
-```
-
-### 2. Navigate to the project
-
-```bash
 cd csharp-employee-management-system
 ```
 
-### 3. Run the application
+### 2. Build the solution
 
 ```bash
-dotnet run
+dotnet build CSharpDotNetLearning.slnx
 ```
 
-## Example Menu
+### 3. Run the console application
 
-```text
-EMPLOYEE MANAGEMENT SYSTEM
-
-[1] Dashboard
-[2] View Employees
-[3] Add Employee
-[4] Search Employee
-[5] Filter Employees
-[6] Update Employee
-[7] Delete Employee
-[8] Sort Employees
-[9] Exit
+```bash
+dotnet run --project CSharpDotNetLearning/CSharpDotNetLearning.csproj
 ```
 
-## Dashboard
+### 4. Run the web application
 
-The application provides basic employee statistics including:
+```bash
+dotnet run --project EmployeeManagement.Web/EmployeeManagement.Web.csproj
+```
 
-- Total employees
-- Average age
-- Average salary
-- Highest salary
-- Lowest salary
-- Highest-paid employee
-- Youngest employee
-- Oldest employee
-- Employee count by position
+Open the local URL displayed in the terminal to access the web dashboard.
 
-## Search and Filter
+### 5. Run unit tests
 
-Employees can be searched by:
-
-- Employee ID
-- Employee name
-
-Employees can also be filtered by position.
-
-The search and filter functionality uses LINQ and case-insensitive text matching.
-
-## Sorting
-
-Employees can be sorted by:
-
-- **Name:** A-Z / Z-A
-- **Age:** Youngest to Oldest / Oldest to Youngest
-- **Salary:** Lowest to Highest / Highest to Lowest
+```bash
+dotnet test CSharpDotNetLearning.slnx
+```
 
 ## Data Persistence
 
-Employee data is stored in:
+Employee records are stored in JSON format:
 
 ```text
-Data/employees.json
+CSharpDotNetLearning/Data/employees.json
 ```
 
 The application uses `System.Text.Json` to serialize and deserialize employee data.
 
-This allows employee data to remain available after the application is closed and started again.
+Both the console and web applications are configured to use the same employee data file. Changes made through supported employee operations are saved to JSON and remain available after the application is restarted.
+
+Because JSON file storage does not provide database-style transactions or concurrency control, avoid modifying the same file simultaneously from multiple application instances.
+
+## Employee Dashboard
+
+The console application provides employee statistics such as:
+
+- Total employees
+- Average age
+- Average salary
+- Highest and lowest salary
+- Highest-paid employee
+- Youngest and oldest employee
+- Employee count by position
+
+The web dashboard currently displays:
+- Total employees
+- Number of unique employee positions
+- Employee records in a table
+
+Employee status and joining-date statistics are planned for future improvements.
+
+## Search, Filter, and Sorting
+
+The console application supports:
+
+- Searching by employee ID
+- Searching by employee name
+- Filtering by position
+- Sorting by name, age, and salary
+
+The search and filter functionality uses LINQ and case-insensitive text matching.
 
 ## Input Validation
 
-The application validates user input including:
+The applications perform input validation to help ensure that employee information is valid.
 
-- Required text fields
-- Employee ID
-- Employee age between 18 and 65
-- Positive salary values
+Validation includes required text fields, valid employee age, and non-negative salary values.
 
-Invalid input is rejected and the user is asked to enter the value again.
+The web application also uses server-side checks for employee creation and updates.
 
 ## Learning Goals
 
-This project is part of my hands-on **C#/.NET learning journey**.
-
-The main goals are to practice:
+This project helps me practice:
 
 - C# syntax and fundamentals
-- Classes and objects
-- Object-Oriented Programming
-- Collections
-- LINQ
-- Methods
-- Conditional statements
-- Loops
+- Classes, objects, and Object-Oriented Programming
+- Collections and LINQ
+- Methods, loops, and conditional statements
 - Exception handling
-- File I/O
-- JSON serialization
+- File I/O and JSON serialization
 - Input validation
-- Basic separation of concerns
-- Git and GitHub workflow
+- Separation of concerns
+- Repository Pattern
+- Dependency Injection
+- ASP.NET Core MVC and Razor Views
+- HTML, CSS, JavaScript, and Bootstrap
+- Unit testing with xUnit
+- Git branching, commits, and GitHub workflows
 
 ## Current Status
 
-**Version 1.0**
+**Console application and web CRUD implemented.**
 
-The current version is a console-based Employee Management System using JSON as its data source.
+The project has evolved from a console-based employee management application into a solution that also includes an ASP.NET Core MVC web dashboard.
 
-The application currently supports CRUD operations, search, filtering, sorting, dashboard statistics, employee grouping by position, input validation, and JSON data persistence.
+The web application currently supports viewing, creating, editing, and deleting employee records with JSON persistence.
 
 ## Future Improvements
 
-Planned improvements include:
-
-- More filtering options
-- Repository Pattern
-- SQL Server database
+- Search, filtering, and pagination in the web interface
+- Employee status and joining date
+- More comprehensive automated tests
+- SQL Server database integration
 - Entity Framework Core
 - ASP.NET Core Web API
-- Unit testing
-- API documentation
 - Authentication and authorization
+- Improved validation and error handling
+- Deployment to a hosting platform
 
 ## Learning Journey
 
-This project is continuously improved as I learn more about C# and .NET.
+This project is part of my hands-on journey toward becoming a .NET developer.
 
-The goal is to gradually evolve the application from a simple console application into a more complete .NET backend project.
+I am building it incrementally, applying new concepts as I learn them, and improving the architecture as the application grows.
+
+My goal is to evolve this project into a more complete, maintainable, and production-oriented .NET application.
 
 ## Repository
 
-GitHub: https://github.com/Chrisjohanes/csharp-employee-management-system
+GitHub: [Chrisjohanes/csharp-employee-management-system](https://github.com/Chrisjohanes/csharp-employee-management-system)
